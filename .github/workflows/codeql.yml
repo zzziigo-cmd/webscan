@@ -1,53 +1,67 @@
-name: "CodeQL Advanced"
+name: Android APK Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
-  analyze:
+  build-debug-apk:
+    name: Build debug APK
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      packages: read
-      actions: read
-      contents: read
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - language: java-kotlin
-            build-mode: manual
+    env:
+      JAVA_VERSION: "17"
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Build project manually
+      - name: Install Android build tools
         shell: bash
-        env:
-          KEYSTORE_PATH: ${{ github.workspace }}/my-upload-key.jks
-          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          ./gradlew :app:assembleRelease
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+      - name: Create required .env.example file
+        shell: bash
+        run: |
+          if [ ! -f .env.example ]; then
+            cat > .env.example <<'EOF'
+          # Minimal .env.example for CI
+          # This file is required by the Secrets Gradle plugin.
+          # Add your real values locally if needed.
+          FIREBASE_API_KEY=
+          FIREBASE_APP_ID=
+          FIREBASE_PROJECT_ID=
+          FIREBASE_MESSAGING_SENDER_ID=
+          FIREBASE_STORAGE_BUCKET=
+          FIREBASE_AUTH_DOMAIN=
+          FIREBASE_DATABASE_URL=
+          FIREBASE_MEASUREMENTS_ID=
+          EOF
+          fi
+
+      - name: Grant execute permission to Gradle wrapper
+        run: chmod +x ./gradlew
+
+      - name: Build debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
         with:
-          category: "/language:${{ matrix.language }}"
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
