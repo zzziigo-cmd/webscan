@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Télécharger Scan — Audit de Sécurité Web CMS-Aware (APK & ZIP)</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <style>
+        :root {
+            --bg-color: #0a0e17;
+            --surface-color: #111827;
+            --surface-card: #161f30;
+            --cyan: #00e5ff;
+            --blue: #2979ff;
+            --green: #00e676;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --border-glow: rgba(0, 229, 255, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 30px 16px;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 229, 255, 0.12), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(41, 121, 255, 0.08), transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .header-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 229, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-wrap {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 16px;
+            border-radius: 24px;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--cyan), var(--blue));
+            box-shadow: 0 8px 24px rgba(0, 229, 255, 0.4);
+        }
+
+        .logo-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            display: block;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: var(--cyan);
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        .badges-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .badge.cyan {
+            border-color: rgba(0, 229, 255, 0.4);
+            color: var(--cyan);
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .badge.green {
+            border-color: rgba(0, 230, 118, 0.4);
+            color: var(--green);
+            background: rgba(0, 230, 118, 0.1);
+        }
+
+        /* 3D Download Buttons */
+        .downloads-card {
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-3d {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+            border: 1px solid var(--cyan);
+            border-radius: 14px;
+            padding: 16px 20px;
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 6px 0 #075985, 0 12px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #075985, 0 16px 24px rgba(0, 229, 255, 0.25);
+        }
+
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #075985, 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-3d.zip {
+            background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 0 #0f172a, 0 12px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-3d.zip:hover {
+            box-shadow: 0 8px 0 #0f172a, 0 16px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-3d.zip:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #0f172a, 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .btn-text h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .btn-text p {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        .btn-size {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Information Grid */
+        .info-card {
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 24px;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+            will-change: transform;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px) scale(1.015);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 229, 255, 0.18);
+            border-color: var(--border-glow);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .info-item {
+            background: var(--surface-card);
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        /* Developer Card */
+        .dev-card {
+            background: linear-gradient(135deg, #111827 0%, #162033 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .dev-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .dev-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.15);
+            border: 2px solid var(--cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--cyan);
+            font-weight: 800;
+        }
+
+        .dev-info h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .dev-info p {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        .dev-contact-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .contact-btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .contact-btn.email {
+            background: rgba(0, 229, 255, 0.12);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+        }
+
+        .contact-btn.phone {
+            background: rgba(0, 230, 118, 0.12);
+            color: var(--green);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .contact-btn:hover {
+            filter: brightness(1.2);
+        }
+
+        /* Guide */
+        .guide-step {
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-sub);
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--cyan);
+            color: #000;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 12px;
+            padding-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Hero -->
+    <div class="header-card">
+        <div class="logo-wrap">
+            <img src="logo.jpg" alt="Logo Scan">
+        </div>
+        <h1>Scan</h1>
+        <div class="tagline">Plateforme d'Audit & Sécurité Web CMS-Aware</div>
+        <p class="desc">
+            Scanner de sécurité intelligent intégrant un pipeline d'inspection contextuel en 9 étapes, 
+            sondes d'injections XSS/SQL non-destructives, cartographie OWASP Top 10, export PDF/JSON et synchronisation cloud.
+        </p>
+
+        <div class="badges-row">
+            <span class="badge cyan">v2.4.0 Enterprise</span>
+            <span class="badge green">✓ APK Prêt & Signé</span>
+            <span class="badge">Android 7.0+ (API 24-36)</span>
+            <span class="badge">Architecture Universelle</span>
+        </div>
+    </div>
+
+    <!-- Direct Download Links -->
+    <div class="downloads-card">
+        <div class="section-title">
+            <span>⚡</span> Téléchargements Directs Disponibles
+        </div>
+
+        <!-- APK Download Button -->
+        <a href="https://tmpfiles.org/w0AVH9H9KFME/scan-v2.4.0.apk" target="_blank" class="btn-3d">
+            <div class="btn-content">
+                <div class="btn-icon">🤖</div>
+                <div class="btn-text">
+                    <h3>Télécharger l'APK Direct (TempFiles)</h3>
+                    <p>Fichier d'installation autonome prêt à installer</p>
+                </div>
+            </div>
+            <div class="btn-size">23.9 Mo</div>
+        </a>
+
+        <!-- Source Code ZIP Button -->
+        <a href="https://tmpfiles.org/wCA3TAT8FEoN/scan-sourcecode.zip" target="_blank" class="btn-3d zip">
+            <div class="btn-content">
+                <div class="btn-icon">📦</div>
+                <div class="btn-text">
+                    <h3>Télécharger les Sources Complètes (ZIP + Gradle)</h3>
+                    <p>Projet Android Studio 100% prêt avec build.gradle.kts, wrapper et scripts</p>
+                </div>
+            </div>
+            <div class="btn-size">760 Ko</div>
+        </a>
+    </div>
+
+    <!-- Technical Details -->
+    <div class="info-card">
+        <div class="section-title">
+            <span>⚙️</span> Fiche Technique du Package
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Nom du Package</div>
+                <div class="info-value">com.aistudio.scan.zqkvd</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Version de l'App</div>
+                <div class="info-value">2.4.0 (Build 1)</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Cible Android SDK</div>
+                <div class="info-value">minSdk 24 • targetSdk 36</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Base de Données</div>
+                <div class="info-value">SQLite Room + Cloud Sync</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Modules de Sécurité</div>
+                <div class="info-value">9 Étapes CMS + OWASP + XSS/SQL</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Exports Inclus</div>
+                <div class="info-value">Documents PDF vectoriels & JSON</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Installation Instructions -->
+    <div class="info-card">
+        <div class="section-title">
+            <span>📱</span> Comment installer sur votre smartphone Android
+        </div>
+        <div class="guide-step">
+            <div class="step-num">1</div>
+            <div>Cliquez sur le bouton <strong>Télécharger l'APK</strong> ci-dessus depuis votre téléphone.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">2</div>
+            <div>Ouvrez le fichier téléchargé <code>Scan-v2.4.0.apk</code> depuis le volet des notifications ou votre gestionnaire de fichiers.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">3</div>
+            <div>Si Android le demande, autorisez <em>"Installation depuis des sources inconnues"</em> pour votre navigateur.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">4</div>
+            <div>Appuyez sur <strong>Installer</strong> puis profitez de l'application <strong>Scan</strong> !</div>
+        </div>
+    </div>
+
+    <!-- Developer Contact -->
+    <div class="dev-card">
+        <div class="section-title">
+            <span>🛡️</span> Auteur & Développeur Principal
+        </div>
+        <div class="dev-row">
+            <div class="dev-avatar">R</div>
+            <div class="dev-info">
+                <h3>Redouane Oulaati</h3>
+                <p>Lead Engineer & Spécialiste Sécurité Applicative</p>
+            </div>
+        </div>
+        <div class="dev-contact-btns">
+            <a href="mailto:redouaneoulaati@gmail.com" class="contact-btn email">✉️ redouaneoulaati@gmail.com</a>
+            <a href="tel:+212646898915" class="contact-btn phone">📞 +212646898915</a>
+        </div>
+    </div>
+
+    <footer>
+        Scan v2.4.0 • Développé par Redouane Oulaati • Tous droits réservés.
+    </footer>
+</div>
+
+</body>
+</html>
