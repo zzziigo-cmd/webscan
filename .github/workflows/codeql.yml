@@ -14,6 +14,7 @@ jobs:
 
     env:
       JAVA_VERSION: "17"
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
 
     steps:
       - name: Checkout repository
@@ -29,11 +30,11 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android build tools
+      - name: Install Android SDK packages
         shell: bash
         run: |
-          yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          echo "y" | sdkmanager --licenses
+          sdkmanager --install "platform-tools" "platforms;android-36" "build-tools;36.0.0"
 
       - name: Create required .env.example file
         shell: bash
@@ -42,7 +43,6 @@ jobs:
             cat > .env.example <<'EOF'
           # Minimal .env.example for CI
           # This file is required by the Secrets Gradle plugin.
-          # Add your real values locally if needed.
           FIREBASE_API_KEY=
           FIREBASE_APP_ID=
           FIREBASE_PROJECT_ID=
