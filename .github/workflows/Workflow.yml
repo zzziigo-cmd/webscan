@@ -1,73 +1,20 @@
-name: Android APK Build
+- name: Install Android SDK packages explicitly
+  shell: bash
+  run: |
+    mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
 
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:
+    if [ ! -x "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" ]; then
+      curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o /tmp/cmdline-tools.zip
+      unzip -q /tmp/cmdline-tools.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
+      mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+    fi
 
-jobs:
-  build-debug-apk:
-    name: Build debug APK
-    runs-on: ubuntu-latest
+    export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
 
-    env:
-      JAVA_VERSION: "17"
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+    # Accept Android licenses non-interactively
+    yes | sdkmanager --licenses >/dev/null 2>&1 || true
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: ${{ env.JAVA_VERSION }}
-          cache: gradle
-
-      - name: Install Android SDK packages explicitly
-        shell: bash
-        run: |
-          mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
-          if [ ! -x "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" ]; then
-            curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o /tmp/cmdline-tools.zip
-            unzip -q /tmp/cmdline-tools.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
-            mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
-          fi
-
-          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses
-          "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --install \
-            "platform-tools" \
-            "platforms;android-36" \
-            "build-tools;36.0.0"
-
-      - name: Create required .env.example file
-        shell: bash
-        run: |
-          if [ ! -f .env.example ]; then
-            cat > .env.example <<'EOF'
-          # Minimal .env.example for CI
-          FIREBASE_API_KEY=
-          FIREBASE_APP_ID=
-          FIREBASE_PROJECT_ID=
-          FIREBASE_MESSAGING_SENDER_ID=
-          FIREBASE_STORAGE_BUCKET=
-          FIREBASE_AUTH_DOMAIN=
-          FIREBASE_DATABASE_URL=
-          FIREBASE_MEASUREMENTS_ID=
-          EOF
-          fi
-
-      - name: Grant execute permission to Gradle wrapper
-        run: chmod +x ./gradlew
-
-      - name: Build debug APK
-        run: ./gradlew :app:assembleDebug --stacktrace
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+    sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --install \
+      "platform-tools" \
+      "platforms;android-36" \
+      "build-tools;36.0.0"
