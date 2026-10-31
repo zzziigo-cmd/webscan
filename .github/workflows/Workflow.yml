@@ -64,8 +64,8 @@ jobs:
           echo "Installing required Android SDK packages..."
           sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --install \
             "platform-tools" \
-            "platforms;android-34" \
-            "build-tools;34.0.0"
+            "platforms;android-36" \
+            "build-tools;36.0.0"
 
       - name: Grant permission to Gradle wrapper
         run: chmod +x ./gradlew
