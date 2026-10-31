@@ -10,7 +10,7 @@ on:
 jobs:
   build-debug-apk:
     name: Build debug APK
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26
 
     env:
       JAVA_VERSION: "17"
@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
